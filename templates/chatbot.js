@@ -1,4 +1,153 @@
- function toggleChatbot() {
+// Código CSS en una cadena de texto
+const chatbotStyles = `
+    #chatbot-button {
+        position: fixed;
+        bottom: 25px;
+        right: 20px;
+        background-color: #000000;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    #chatbot-button img {
+        width: 20px;
+        margin-right: 10px;
+    }
+
+    #chatbot-container {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        height: 500px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        background: #e0e0e0;
+        flex-direction: column;
+        z-index: 999;
+        overflow: hidden;
+    }
+
+    #chatbot-header {
+        background-color: #000000;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    #chatbot-header img {
+        width: 40px;
+        height: 40px;
+        border-radius: 90%;
+        margin-right: 10px;
+    }
+
+    #chatbot-header h1 {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    #chatbot-header p {
+        font-size: 12px;
+        margin: 0;
+    }
+
+    #close-chatbot {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    #chatbot-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        border-bottom: 1px solid #ccc;
+        background: #f9f9f9;
+    }
+
+    #chatbot-input-container {
+        display: flex;
+    }
+
+    #chatbot-input {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 0 0 0 10px;
+        background: #ddd;
+        color: #333;
+        font-size: 14px;
+    }
+
+    #chatbot-send-button {
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 0 0 10px 0;
+        cursor: pointer;
+        font-size: 14px;
+    }
+`;
+
+// Insertar los estilos en el documento
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = chatbotStyles;
+document.head.appendChild(styleSheet);
+
+// Crear el botón del chatbot
+const chatbotButton = document.createElement('button');
+chatbotButton.id = 'chatbot-button';
+chatbotButton.innerHTML = '<img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="Icono del chatbot">';
+document.body.appendChild(chatbotButton);
+
+// Crear el contenedor del chatbot
+const chatbotContainer = document.createElement('div');
+chatbotContainer.id = 'chatbot-container';
+chatbotContainer.innerHTML = `
+    <div id="chatbot-header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://i.postimg.cc/qRBBkzng/Captura-de-pantalla-2024-02-27-102418.png" alt="Logo">
+            <div>
+                <h1>Dan de Surcan🟢</h1>
+                <p>Powered By LinBerAI</p>
+            </div>
+        </div>
+        <button id="close-chatbot">&times;</button>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-input-container">
+        <input type="text" id="chatbot-input" placeholder="Escribe un mensaje..." onkeypress="handleKeyPress(event)">
+        <button id="chatbot-send-button">Enviar</button>
+    </div>
+`;
+document.body.appendChild(chatbotContainer);
+
+function toggleChatbot() {
+    const container = document.getElementById('chatbot-container');
+    container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'flex' : 'none';
+}
+
+document.getElementById('chatbot-button').addEventListener('click', toggleChatbot);
+document.getElementById('close-chatbot').addEventListener('click', toggleChatbot);
+
+function toggleChatbot() {
             const chatbotContainer = document.getElementById('chatbot-container');
             if (chatbotContainer.style.display === 'none' || chatbotContainer.style.display === '') {
                 chatbotContainer.style.display = 'flex';
@@ -28,12 +177,13 @@
             document.getElementById('chatbot-messages').scrollTop = document.getElementById('chatbot-messages').scrollHeight;
 
             try {
-                const response = await fetch('https://pilper-7.onrender.com/chat', {
+                const response = await fetch('https://anywayv9-jwl7.onrender.com/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ message }),
+                  
                 });
 
                 const data = await response.json();
